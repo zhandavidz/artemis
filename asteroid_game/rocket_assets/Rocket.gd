@@ -25,7 +25,7 @@ func _ready():
 	$LaserTimer.start()
 
 func _physics_process(delta):
-	get_input()
+#	get_input()
 	
 	rotation += rotation_direction * rotation_speed * delta
 	
@@ -39,23 +39,27 @@ func _physics_process(delta):
 		position.x = clamp(position.x, 0, screen_size.x)
 		position.y = clamp(position.y, 0, screen_size.y)
 
-func get_input():
-	velocity = Vector2()
-	rotation_direction = 0
-	if Input.is_action_pressed("up"):
-		velocity.y -= 1
-	if Input.is_action_pressed("down"):
-		velocity.y += 1
-	if Input.is_action_pressed("left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("right"):
-		velocity.x += 1
-	velocity = velocity.normalized()
+#func get_input():
+#	velocity = Vector2()
+#	rotation_direction = 0
+#	if Input.is_action_pressed("up"):
+#		velocity.y -= 1
+#	if Input.is_action_pressed("down"):
+#		velocity.y += 1
+#	if Input.is_action_pressed("left"):
+#		velocity.x -= 1
+#	if Input.is_action_pressed("right"):
+#		velocity.x += 1
+#	velocity = velocity.normalized()
+#
+#	if Input.is_action_pressed("rotate_left"):
+#		rotation_direction -= 1
+#	if Input.is_action_pressed("rotate_right"):
+#		rotation_direction += 1
 	
-	if Input.is_action_pressed("rotate_left"):
-		rotation_direction -= 1
-	if Input.is_action_pressed("rotate_right"):
-		rotation_direction += 1
+func set_input(vel, rotate):
+	velocity = vel.normalized()
+	rotation_direction = rotate
 
 func set_collision():
 	pass

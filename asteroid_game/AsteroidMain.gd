@@ -16,12 +16,13 @@ func end_game():
 
 
 func _physics_process(delta):
-	if Input.is_action_pressed("shoot"):
-		if $Rocket.can_shoot:
-			$Rocket.can_shoot = false
-			var laser = Laser.instance()
-			add_child(laser)
-			laser.shoot("player", $Rocket.position, $Rocket.rotation)
+	pass
+#	if Input.is_action_pressed("shoot"):
+#		if $PlayerRocket/Rocket.can_shoot:
+#			$PlayerRocket/Rocket.can_shoot = false
+#			var laser = Laser.instance()
+#			add_child(laser)
+#			laser.shoot("player", $PlayerRocket/Rocket.position, $PlayerRocket/Rocket.rotation)
 
 
 func _on_AsteroidTimer_timeout():
