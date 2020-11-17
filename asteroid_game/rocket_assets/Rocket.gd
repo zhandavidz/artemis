@@ -2,25 +2,39 @@ extends KinematicBody2D
 
 
 # Declare member variables here. Examples:
-export var speed = 400
-export var rotation_speed = 2.5
+export var speed = 550
+export var rotation_speed = 3
 var screen_size
 
+var health = 100
 
 var velocity = Vector2()
 var rotation_direction = 0
+var clamp_on = true
 
 var can_shoot = true
 
+var animations = {
+	"player": {
+		"default": "player_default",
+		"flame": "player_flame"
+	},
+	"enemy": {
+		"default": "enemy_default",
+		"flame": "enemy_flame"
+	}
+}
+
+var type = "player"
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	add_to_group("rockets")
 	set_collision()
 	screen_size = get_viewport_rect().size
-	speed = 550
-	rotation_speed = 3
 	
 	position.x = screen_size.x/2
-	position.y = screen_size.y/2
+	position.y = 2 * screen_size.y/3
 	
 	$LaserTimer.start()
 
@@ -31,35 +45,31 @@ func _physics_process(delta):
 	
 	if velocity == Vector2(0,0):
 		$AnimatedSprite.stop()
-		$AnimatedSprite.animation = "default"
+		$AnimatedSprite.animation = animations[type]["default"]
 	else:
-		$AnimatedSprite.animation = "flame"
+		$AnimatedSprite.animation = animations[type]["flame"]
 		$AnimatedSprite.play()
 		position += velocity * speed * delta
-		position.x = clamp(position.x, 0, screen_size.x)
-		position.y = clamp(position.y, 0, screen_size.y)
+		if clamp_on:
+			position.x = clamp(position.x, 0, screen_size.x)
+			position.y = clamp(position.y, 0, screen_size.y)
 
-#func get_input():
-#	velocity = Vector2()
-#	rotation_direction = 0
-#	if Input.is_action_pressed("up"):
-#		velocity.y -= 1
-#	if Input.is_action_pressed("down"):
-#		velocity.y += 1
-#	if Input.is_action_pressed("left"):
-#		velocity.x -= 1
-#	if Input.is_action_pressed("right"):
-#		velocity.x += 1
-#	velocity = velocity.normalized()
-#
-#	if Input.is_action_pressed("rotate_left"):
-#		rotation_direction -= 1
-#	if Input.is_action_pressed("rotate_right"):
-#		rotation_direction += 1
+func set_speed(linear_speed, rot_speed=-1):
+	speed = linear_speed
+	if rot_speed == -1:
+		rotation_speed = speed / 180.0
+	else:
+		rotation_speed = rot_speed
 	
 func set_input(vel, rotate):
 	velocity = vel.normalized()
 	rotation_direction = rotate
+
+func set_direction(dir):
+	rotation = dir
+
+func set_enemy():
+	type = "enemy"
 
 func set_collision():
 	pass
@@ -78,3 +88,17 @@ func set_collision():
 
 func _on_LaserTimer_timeout():
 	can_shoot = true
+
+func decrease_health(amt):
+	health -= amt
+#	if is_in_group("player"):
+#		get_parent().get_parent().set_hud_health()
+
+func check_health():
+	print(is_in_group("players"))
+	print(get_parent().is_in_group("players"))
+	if health <= 0:
+		get_parent().get_parent().enemy_rockets.erase(get_parent())
+		get_parent().queue_free()
+	elif is_in_group("players"):
+		get_parent().get_parent().update_player_health(health)

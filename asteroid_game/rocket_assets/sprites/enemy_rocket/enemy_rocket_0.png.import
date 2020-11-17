@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/enemy_rocket_flame_0.png-25a94e98ec83adaaf4ed8f8913fc8033.stex"
+path="res://.import/enemy_rocket_0.png-9de495f089771f1ce592258fc8e6963c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asteroid_game/rocket_assets/sprites/enemy_rocket/enemy_rocket_flame_0.png"
-dest_files=[ "res://.import/enemy_rocket_flame_0.png-25a94e98ec83adaaf4ed8f8913fc8033.stex" ]
+source_file="res://asteroid_game/rocket_assets/sprites/enemy_rocket/enemy_rocket_0.png"
+dest_files=[ "res://.import/enemy_rocket_0.png-9de495f089771f1ce592258fc8e6963c.stex" ]
 
 [params]
 

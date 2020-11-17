@@ -2,7 +2,7 @@
 
 [ext_resource path="res://asteroid_game/AsteroidMain.gd" type="Script" id=1]
 [ext_resource path="res://asteroid_game/rocket_assets/PlayerRocket.tscn" type="PackedScene" id=2]
-[ext_resource path="res://asteroid_game/rocket_assets/EnemyRocket.tscn" type="PackedScene" id=3]
+[ext_resource path="res://asteroid_game/HUD.tscn" type="PackedScene" id=3]
 
 [node name="AsteroidMain" type="Node"]
 script = ExtResource( 1 )
@@ -12,5 +12,14 @@ wait_time = 0.25
 
 [node name="PlayerRocket" parent="." instance=ExtResource( 2 )]
 
-[node name="EnemyRocket" parent="." instance=ExtResource( 3 )]
+[node name="PlayerPositionInterval" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="EnemySpawn" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
 [connection signal="timeout" from="AsteroidTimer" to="." method="_on_AsteroidTimer_timeout"]
+[connection signal="timeout" from="PlayerPositionInterval" to="." method="_on_PlayerPositionInterval_timeout"]
+[connection signal="timeout" from="EnemySpawn" to="." method="_on_EnemySpawn_timeout"]

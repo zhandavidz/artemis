@@ -3,7 +3,7 @@ extends RigidBody2D
 
 # Declare member variables here. Examples:
 export var speed = 2000
-var colors = {"player": "green", "enemy": "red"}
+var colors = {"players": "green", "enemies": "red"}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,7 +23,7 @@ func shoot(side, rocket_position, rocket_rotation):
 	add_to_group(side)
 	$AnimatedSprite.animation = colors[side]
 	$GreenLaserSound.play()
-	position = rocket_position + Vector2(0, -70).rotated(rocket_rotation)
+	position = rocket_position + Vector2(0, -80).rotated(rocket_rotation)
 	rotation = rocket_rotation
 	
 	linear_velocity = Vector2(speed, 0).rotated(rotation - PI / 2)
@@ -36,6 +36,12 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 
 func _on_Laser_body_entered(body):
-	if body.is_in_group("asteroids") or body.is_in_group("enemy"):
-		queue_free()
+	if body.is_in_group("asteroids"):
+		body.health -= 1
+		body.check_health()
+	elif body.is_in_group("rockets"):
+		body.health -= 1
+		body.check_health()
+#	if body.is_in_group("asteroids") or body.is_in_group("enemy"):
+	queue_free()
 

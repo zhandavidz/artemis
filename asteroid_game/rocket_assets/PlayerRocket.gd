@@ -6,7 +6,11 @@ export (PackedScene) var Laser = load("asteroid_game/laser_assets/Laser.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Rocket.set_speed(550)
+	$Rocket.add_to_group("players")
+	
+	$Rocket.position.x = .5 * $Rocket.screen_size.x
+	$Rocket.position.y = .7 * $Rocket.screen_size.y
 
 func _physics_process(delta):
 	var velocity = Vector2()
@@ -33,7 +37,7 @@ func _physics_process(delta):
 			$Rocket.can_shoot = false
 			var laser = Laser.instance()
 			add_child(laser)
-			laser.shoot("player", $Rocket.position, $Rocket.rotation)
+			laser.shoot("players", $Rocket.position, $Rocket.rotation)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -4,6 +4,7 @@ extends RigidBody2D
 # Declare member variables here. Examples:
 export var speed = 150
 var screen_size
+var health = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -51,3 +52,16 @@ func set_no_gravity_defaults():
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
+
+
+#func _on_Asteroid_body_entered(body):
+#	print(health)
+#	if body.is_in_group("lasers"):
+#		health -= 1
+#	elif body.is_in_group("rockets"):
+#		health -= 2
+#	check_health()
+
+func check_health():
+	if health <= 0:
+		queue_free()
