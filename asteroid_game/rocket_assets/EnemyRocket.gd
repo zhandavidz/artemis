@@ -6,19 +6,21 @@ var rng = RandomNumberGenerator.new()
 export (PackedScene) var Laser = load("asteroid_game/laser_assets/Laser.tscn")
 var is_shooting = false
 var target = Vector2()
+var type setget set_type
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Rocket.add_to_group("enemies")
+#	$Rocket.add_to_group("enemies")
 	rng.randomize()
-	$IsShootingTimer.start()
+	$NotShootingTimer.start()
+	self.type = "enemy"
 #	$Rocket.position.x = .5 * $Rocket.screen_size.x
 #	$Rocket.position.y = -100
-	$Rocket.set_enemy()
+#	$Rocket.set_enemy()
 	$Rocket.clamp_on = false
 	$Rocket.position = Vector2(randi() % int($Rocket.screen_size.x - 100) + 50, -100)
 	$Rocket.rotation = PI
-	$Rocket.set_speed(300, 3)
+#	$Rocket.set_speed(400, 4)
 	$Rocket.health = 10
 
 func _physics_process(delta):
@@ -30,12 +32,7 @@ func _physics_process(delta):
 	
 	var current_direction = float_mod($Rocket.rotation, (2 * PI))
 	
-#	print("_")
-#	print(point_to)
-#	print(current_direction)
-#	current_direction = abs(current_direction)
 	current_direction = float_mod(current_direction + 2 * PI, (2 * PI))
-#	print(current_direction)
 	
 	if float_eq(point_to, current_direction):
 		rotation_direction = 0
@@ -58,20 +55,16 @@ func _physics_process(delta):
 	if velocity.length() < 150:
 		velocity = Vector2()
 	
-#	rotation_direction = rng.randfn(rotation_direction, .5)
-#	print(rotation_direction)
+	velocity = Vector2(rng.randfn(velocity.x, .2), rng.randfn(velocity.y, .2))
 	$Rocket.set_input(velocity, rotation_direction)
 	
 	if is_shooting:
 		if $Rocket.can_shoot:
 			$Rocket.can_shoot = false
-			var laser = Laser.instance()
-			add_child(laser)
-			laser.shoot("enemies", $Rocket.position, $Rocket.rotation)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+			for turret in $Rocket.current_turrets:
+				var laser = Laser.instance()
+				add_child(laser)
+				laser.shoot("enemies", $Rocket.current_turrets[turret], $Rocket.position, $Rocket.rotation)
 
 func set_start_position(x, y):
 	$Rocket.position.x = x
@@ -80,8 +73,30 @@ func set_start_position(x, y):
 func set_target(position):
 	target = position
 
-func _on_IsShootingTimer_timeout():
-	is_shooting = not is_shooting
+func set_shooting_timers(shooting, not_shooting):
+	$ShootingTimer.wait_time = shooting
+	$NotShootingTimer.wait_time = not_shooting
+
+func _on_ShootingTimer_timeout():
+	is_shooting = false
+	$NotShootingTimer.start()
+	
+func _on_NotShootingTimer_timeout():
+	is_shooting = true
+	$ShootingTimer.start()
+
+func set_type(val):
+	type = val
+	if val.substr(val.length()-6) == "_enemy":
+		val = val.substr(0, val.length() - 6)
+	
+	
+	if val == "enemy" or val == "normal":
+		$Rocket.type = "enemy"
+	else:
+		$Rocket.type = val + "_enemy"
+	
+
 
 func float_eq(a, b):
 	var epsilon = .1

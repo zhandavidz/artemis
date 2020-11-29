@@ -8,6 +8,10 @@ script = ExtResource( 2 )
 
 [node name="Rocket" parent="." instance=ExtResource( 1 )]
 
-[node name="IsShootingTimer" type="Timer" parent="."]
+[node name="ShootingTimer" type="Timer" parent="."]
 wait_time = 0.3
-[connection signal="timeout" from="IsShootingTimer" to="." method="_on_IsShootingTimer_timeout"]
+
+[node name="NotShootingTimer" type="Timer" parent="."]
+wait_time = 0.3
+[connection signal="timeout" from="ShootingTimer" to="." method="_on_ShootingTimer_timeout"]
+[connection signal="timeout" from="NotShootingTimer" to="." method="_on_NotShootingTimer_timeout"]

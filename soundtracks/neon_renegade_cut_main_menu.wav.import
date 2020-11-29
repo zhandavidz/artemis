@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/neon_renegade_cut_main_menu.wav-765a6c5278b20d9df9724669a086b14b.sample"
+
+[deps]
+
+source_file="res://soundtracks/neon_renegade_cut_main_menu.wav"
+dest_files=[ "res://.import/neon_renegade_cut_main_menu.wav-765a6c5278b20d9df9724669a086b14b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://soundtracks/hazels_comet_game.wav" type="AudioStream" id=1]
+[ext_resource path="res://soundtracks/GameMusic.gd" type="Script" id=2]
+[ext_resource path="res://soundtracks/neon_renegade_main_menu.wav" type="AudioStream" id=3]
+[ext_resource path="res://soundtracks/neon_renegade_cut_main_menu.wav" type="AudioStream" id=4]
+
+[node name="GameMusic" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="NeonRenegade" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="NeonRenegadeCut" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="HazelsComet" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )

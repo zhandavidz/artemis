@@ -9,31 +9,30 @@ var enemy_rockets = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	$HUD.hide()
+	$PlayerRocket.set_pregame()
 
 func start_game():
 	$AsteroidTimer.start()
 	$PlayerPositionInterval.start()
 	$EnemySpawn.start()
 	$HUD.show()
+	$PlayerRocket.start_game()
+	for enemy in enemy_rockets:
+		enemy.queue_free()
+	enemy_rockets = []
 
 func end_game():
 	$AsteroidTimer.stop()
 	$PlayerPositionInterval.stop()
 	$EnemySpawn.stop()
 	$HUD.hide()
+#	for enemy in enemy_rockets:
+#		enemy.queue_free()
+#	enemy_rockets = []
 
 func update_player_health(health):
 	$HUD/PlayerHealth.text = str(health)
-
-#func _physics_process(delta):
-#	pass
-#	if Input.is_action_pressed("shoot"):
-#		if $PlayerRocket/Rocket.can_shoot:
-#			$PlayerRocket/Rocket.can_shoot = false
-#			var laser = Laser.instance()
-#			add_child(laser)
-#			laser.shoot("player", $PlayerRocket/Rocket.position, $PlayerRocket/Rocket.rotation)
 
 
 func _on_AsteroidTimer_timeout():
@@ -44,12 +43,11 @@ func _on_AsteroidTimer_timeout():
 
 func _on_PlayerPositionInterval_timeout():
 	for enemy in enemy_rockets:
-#		if enemy is null:
-#			enemy_rockets.erase()
 		enemy.set_target($PlayerRocket/Rocket.position)
 
 
 func _on_EnemySpawn_timeout():
 	var enemy_rocket = EnemyRocket.instance()
 	add_child(enemy_rocket)
+	enemy_rocket.type = "yellow"
 	enemy_rockets.append(enemy_rocket)

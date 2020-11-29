@@ -19,11 +19,11 @@ func _ready():
 	z_index = -1
 
 
-func shoot(side, rocket_position, rocket_rotation):
+func shoot(side, turret, rocket_position, rocket_rotation):
 	add_to_group(side)
 	$AnimatedSprite.animation = colors[side]
 	$GreenLaserSound.play()
-	position = rocket_position + Vector2(0, -80).rotated(rocket_rotation)
+	position = rocket_position + turret.rotated(rocket_rotation)
 	rotation = rocket_rotation
 	
 	linear_velocity = Vector2(speed, 0).rotated(rotation - PI / 2)
@@ -40,8 +40,10 @@ func _on_Laser_body_entered(body):
 		body.health -= 1
 		body.check_health()
 	elif body.is_in_group("rockets"):
-		body.health -= 1
-		body.check_health()
+#		if ( body.is_in_group("players") and is_in_group("enemies") ) or ( body.is_in_group("enemies") and is_in_group("players") ):
+		if not (body.is_in_group("enemies") and is_in_group("enemies")):
+			body.health -= 1
+			body.check_health()
 #	if body.is_in_group("asteroids") or body.is_in_group("enemy"):
 	queue_free()
 

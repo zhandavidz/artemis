@@ -1,7 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://asteroid_game/HUD.gd" type="Script" id=1]
 [ext_resource path="res://fonts/PressStart2P-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_2_lasers_default.png" type="Texture" id=3]
+[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_disabled.png" type="Texture" id=4]
+[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_2_lasers_pressed.png" type="Texture" id=5]
+[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_pressed.png" type="Texture" id=6]
+[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_default.png" type="Texture" id=7]
+[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_2_lasers_disabled.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -22,3 +28,25 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Upgrade2Lasers" type="TextureButton" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade3Lasers" type="TextureButton" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 6 )
+texture_disabled = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Upgrade2Lasers" to="." method="_on_Upgrade2Lasers_pressed"]
+[connection signal="pressed" from="Upgrade3Lasers" to="." method="_on_Upgrade3Lasers_pressed"]
