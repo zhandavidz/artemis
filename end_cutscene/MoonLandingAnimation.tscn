@@ -99,7 +99,7 @@ rotation = 1.0472
 z_index = 5
 frames = SubResource( 1 )
 animation = "flames"
-frame = 1
+frame = 3
 playing = true
 
 [node name="MoonSurface" type="Sprite" parent="Animation"]

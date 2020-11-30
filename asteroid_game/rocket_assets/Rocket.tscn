@@ -137,6 +137,7 @@ script = ExtResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "yellow_enemy_flame"
+frame = 1
 playing = true
 __meta__ = {
 "_edit_group_": true

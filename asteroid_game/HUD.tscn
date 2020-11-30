@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://asteroid_game/HUD.gd" type="Script" id=1]
 [ext_resource path="res://fonts/PressStart2P-Regular.ttf" type="DynamicFontData" id=2]
@@ -8,9 +8,14 @@
 [ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_pressed.png" type="Texture" id=6]
 [ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_default.png" type="Texture" id=7]
 [ext_resource path="res://asteroid_game/hud_assets/upgrade_button_2_lasers_disabled.png" type="Texture" id=8]
+[ext_resource path="res://asteroid_game/hud_assets/metal_ingot_static.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
 font_data = ExtResource( 2 )
 
 [node name="HUD" type="CanvasLayer"]
@@ -30,8 +35,10 @@ __meta__ = {
 }
 
 [node name="Upgrade2Lasers" type="TextureButton" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 50.0
+margin_top = 100.0
+margin_right = 212.0
+margin_bottom = 262.0
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 5 )
 texture_disabled = ExtResource( 8 )
@@ -40,11 +47,77 @@ __meta__ = {
 }
 
 [node name="Upgrade3Lasers" type="TextureButton" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 50.0
+margin_top = 100.0
+margin_right = 266.0
+margin_bottom = 316.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 6 )
 texture_disabled = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeTemp2" type="TextureButton" parent="."]
+margin_left = 50.0
+margin_top = 250.0
+margin_right = 212.0
+margin_bottom = 412.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeTemp3" type="TextureButton" parent="."]
+margin_left = 50.0
+margin_top = 400.0
+margin_right = 212.0
+margin_bottom = 562.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeTemp4" type="TextureButton" parent="."]
+margin_left = 50.0
+margin_top = 550.0
+margin_right = 212.0
+margin_bottom = 712.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeTemp5" type="TextureButton" parent="."]
+margin_left = 50.0
+margin_top = 700.0
+margin_right = 212.0
+margin_bottom = 862.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MetalIcon" type="Sprite" parent="."]
+position = Vector2( 50, 50 )
+texture = ExtResource( 9 )
+centered = false
+
+[node name="MetalCount" type="Label" parent="."]
+margin_left = 110.0
+margin_top = 55.0
+margin_right = 170.0
+margin_bottom = 85.0
+custom_fonts/font = SubResource( 2 )
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }

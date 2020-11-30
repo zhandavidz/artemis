@@ -110,7 +110,8 @@ func check_health():
 	if health <= 0:
 		if is_in_group("players"):
 			get_node("/root/Main/AsteroidMain").end_game()
-#		else:
+		elif is_in_group("enemies"):
+			get_node("/root/Main/AsteroidMain").add_ingot(position)
 		get_parent().get_parent().enemy_rockets.erase(get_parent())
 		get_parent().queue_free()
 	elif is_in_group("players"):

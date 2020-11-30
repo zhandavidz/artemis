@@ -5,10 +5,12 @@ extends Node2D
 export (PackedScene) var Laser = load("asteroid_game/laser_assets/Laser.tscn")
 var allow_shooting = false
 var can_move = false
+var HUD
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Rocket.type = "player"
+	HUD = get_node("/root/Main/AsteroidMain/HUD")
 	
 	$Rocket.position.x = .5 * $Rocket.screen_size.x
 	$Rocket.position.y = .7 * $Rocket.screen_size.y
@@ -54,6 +56,11 @@ func _physics_process(delta):
 				var laser = Laser.instance()
 				add_child(laser)
 				laser.shoot("players", $Rocket.current_turrets[turret], $Rocket.position, $Rocket.rotation)
+	
+#	HUD.change_metal_count(1)
+	if get_parent().is_on_ingot($Rocket.position):
+		HUD.change_metal_count(1)
+	
 
 func get_keyboard_rotation():
 	var rotation_direction = 0
@@ -95,9 +102,9 @@ func get_mouse_rotation_speed_limited(velocity):
 func set_rocket_direction():
 	$Rocket.rotation = float_mod((get_viewport().get_mouse_position() - $Rocket.position).angle() + PI * 5/2, 2*PI)
 
-func _on_upgrade_2_lasers():
+func on_upgrade_2_lasers():
 	$Rocket.turret_count = 2
-func _on_upgrade_3_lasers():
+func on_upgrade_3_lasers():
 	$Rocket.turret_count = 3
 
 func float_eq(a, b):
