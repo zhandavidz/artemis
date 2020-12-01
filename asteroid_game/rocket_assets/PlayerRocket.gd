@@ -16,8 +16,11 @@ func _ready():
 	$Rocket.position.y = .7 * $Rocket.screen_size.y
 
 func set_pregame():
+	print("playerrocket")
+	show()
 	allow_shooting = false
 	can_move = false
+	$Rocket.set_pregame()
 	$Rocket.position.x = .5 * $Rocket.screen_size.x
 	$Rocket.position.y = .5 * $Rocket.screen_size.y
 
@@ -26,6 +29,12 @@ func start_game():
 	can_move = true
 	$Rocket.position.x = .5 * $Rocket.screen_size.x
 	$Rocket.position.y = .7 * $Rocket.screen_size.y
+
+func end_game():
+	allow_shooting = false
+	can_move = false
+	hide()
+	
 
 func _physics_process(delta):
 	var velocity = Vector2()

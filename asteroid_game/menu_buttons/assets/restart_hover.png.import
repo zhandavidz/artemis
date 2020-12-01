@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/upgrade_button_2_lasers_default.png-2372f4dcb1cb67f9dde55f8814918691.stex"
+path="res://.import/restart_hover.png-ae1c74ba98df581a2c346a799ad2776e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asteroid_game/upgrade_button_2_lasers_default.png"
-dest_files=[ "res://.import/upgrade_button_2_lasers_default.png-2372f4dcb1cb67f9dde55f8814918691.stex" ]
+source_file="res://asteroid_game/menu_buttons/assets/restart_hover.png"
+dest_files=[ "res://.import/restart_hover.png-ae1c74ba98df581a2c346a799ad2776e.stex" ]
 
 [params]
 

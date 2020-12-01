@@ -5,35 +5,124 @@ export (PackedScene) var Laser = load("asteroid_game/laser_assets/Laser.tscn")
 export (PackedScene) var Asteroid = load("asteroid_game/asteroid_assets/Asteroid.tscn")
 export (PackedScene) var EnemyRocket = load("asteroid_game/rocket_assets/EnemyRocket.tscn")
 export (PackedScene) var MetalIngot = load("asteroid_game/metal_assets/MetalIngot.tscn")
+export (PackedScene) var MoonLandingAnimation = load("end_cutscene/MoonLandingAnimation.tscn")
 
 var enemy_rockets = []
 var metal_ingots = []
 
+var current_wave = 1
+var wave_prob = { # out of 10
+	1: {
+		"normal": 10,
+		"reinforced": 0,
+		"yellow": 0,
+		"purple": 0
+	},
+	2: {
+		"normal": 7,
+		"reinforced": 3,
+		"yellow": 0,
+		"purple": 0
+	},
+	3: {
+		"normal": 5,
+		"reinforced": 3,
+		"yellow": 2,
+		"purple": 0
+	},
+	4: {
+		"normal": 2,
+		"reinforced": 2,
+		"yellow": 3,
+		"purple": 3
+	},
+	5: {
+		"normal": 1,
+		"reinforced": 2,
+		"yellow": 3,
+		"purple": 4
+	}
+}
+var wave_prob_bounds = {}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_pregame()
+
+func set_pregame():
+	print("asteroidmain")
 	$HUD.hide()
+	$HUD.set_pregame()
 	$PlayerRocket.set_pregame()
+	set_wave_prob_bounds()
+	$RestartMenu.hide()
 
 func start_game():
 	$AsteroidTimer.start()
 	$PlayerPositionInterval.start()
 	$EnemySpawn.start()
 	$HUD.show()
+	$PlayerRocket.show()
 	$PlayerRocket.start_game()
 	for enemy in enemy_rockets:
 		enemy.queue_free()
 	enemy_rockets = []
+	for ingot in metal_ingots:
+		ingot.queue_free()
+	metal_ingots = []
+	$WaveTimer.start()
+	current_wave = 1
+	$HUD.show_wave(current_wave, wave_prob_bounds.size())
 
 func end_game():
 	$AsteroidTimer.stop()
 	$PlayerPositionInterval.stop()
 	$EnemySpawn.stop()
 	$HUD.hide()
-#	for enemy in enemy_rockets:
-#		enemy.queue_free()
-#	enemy_rockets = []
+	$PlayerRocket.end_game()
+	$WaveTimer.stop()
+	$RestartMenu.hide()
+	current_wave = 1
+	for enemy in enemy_rockets:
+		if enemy != null:
+			enemy.queue_free()
+	enemy_rockets = []
+	for ingot in metal_ingots:
+		if ingot != null:
+			ingot.queue_free()
+	metal_ingots = []
+	for asteroid in get_tree().get_nodes_in_group("asteroids"):
+		asteroid.queue_free()
+
+func lose_game():
+	for enemy in enemy_rockets:
+		if enemy != null:
+			enemy.allow_shooting = false
+			enemy.can_move = false
+	
+	for asteroid in get_tree().get_nodes_in_group("asteroids"):
+		asteroid.sleeping = true
+		asteroid.mode = RigidBody2D.MODE_STATIC
+		asteroid.collision_mask = 0
+		asteroid.collision_layer = 0
+	$AsteroidTimer.stop()
+	$PlayerPositionInterval.stop()
+	$EnemySpawn.stop()
+	$WaveTimer.stop()
+	
+	$RestartMenu.show()
+	$PlayerRocket.can_move = false
+	$PlayerRocket.allow_shooting = false
+	$HUD.active = false
+
+func restart_game():
+	end_game()
+	get_node("/root/Main/MainMenu").show_main_menu()
+	get_node("/root/Main/MainMenu")._on_PlayButton_pressed()
 
 func update_player_health(health):
+	if health < 0:
+		health = 0
 	$HUD/PlayerHealth.text = str(health)
 
 func is_on_ingot(pos):
@@ -83,5 +172,40 @@ func _on_PlayerPositionInterval_timeout():
 func _on_EnemySpawn_timeout():
 	var enemy_rocket = EnemyRocket.instance()
 	add_child(enemy_rocket)
-	enemy_rocket.type = "normal"
+	var rand = randi()%10+1
+#	for type in wave_prob_bounds[current_wave]:
+#		if wave_prob_bounds[current_wave][type] <= rand:
+#			enemy_rocket.type = type
+#			print(str(current_wave)+":"+str(type)+":"+str(wave_prob_bounds[current_wave][type])+":"+str(rand))
+#			break
+	var total_prob = 0
+	for type in wave_prob[current_wave]:
+		total_prob += wave_prob[current_wave][type]
+		if rand <= total_prob:
+			enemy_rocket.type = type
+#			print(str(current_wave)+":"+str(type)+":"+str(wave_prob_bounds[current_wave][type])+":"+str(rand))
+			break
+#	enemy_rocket.type = "normal"
 	enemy_rockets.append(enemy_rocket)
+
+
+func _on_WaveTimer_timeout():
+	if current_wave < wave_prob_bounds.size():
+		current_wave += 1
+		$HUD.show_wave(current_wave, wave_prob_bounds.size())
+	else:
+		end_game()
+		get_node("/root/Main/MainMenu").show_moon_animation()
+
+
+func set_wave_prob_bounds():
+	for wave in wave_prob:
+		wave_prob_bounds[wave] = {}
+		var total_prob = 0
+		for type in wave_prob[wave]:
+			if total_prob == 10:
+				wave_prob_bounds[wave][type] = 11 # 11 will never be less than 10, which is max of rand number, any number could work, 11 is just in case
+			else:
+				wave_prob_bounds[wave][type] = wave_prob[wave][type]
+				total_prob += wave_prob[wave][type]
+

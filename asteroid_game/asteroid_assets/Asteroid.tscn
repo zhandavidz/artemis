@@ -8,14 +8,14 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "asteroid_1",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "asteroid_2",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 4 ) ],
-"loop": true,
-"name": "asteroid_0",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 5 ) ],
@@ -23,9 +23,9 @@ animations = [ {
 "name": "asteroid_3",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": true,
-"name": "asteroid_1",
+"name": "asteroid_0",
 "speed": 5.0
 } ]
 

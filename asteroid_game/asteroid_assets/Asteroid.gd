@@ -4,7 +4,7 @@ extends RigidBody2D
 # Declare member variables here. Examples:
 export var speed = 150
 var screen_size
-var health = 3
+var health = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

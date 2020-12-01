@@ -36,16 +36,23 @@ func _on_MenuSong_finished():
 
 
 func _on_ControlsButton_pressed():
-	$GameMusic.set_song("hi")
-
+#	$GameMusic.set_song("hi")
+	pass
 
 func _on_CreditsButton_pressed():
-	hide_main_menu()
-	get_node("/root/Main/AsteroidMain/PlayerRocket/Rocket").hide()
-	
-	add_child(MoonLandingAnimation.instance())
+	pass
 
 func hide_main_menu():
 	for child in get_children():
 		if child.has_method("hide"):
 			child.hide()
+
+func show_main_menu():
+	for child in get_children():
+		if child.has_method("show"):
+			child.show()
+	print(get_node("/root/Main/AsteroidMain"))
+	get_node("/root/Main/AsteroidMain").set_pregame()
+
+func show_moon_animation():
+	add_child(MoonLandingAnimation.instance())

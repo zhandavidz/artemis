@@ -7,36 +7,45 @@ extends CanvasLayer
 var PlayerRocket
 var ingot_count = 0
 var upgrades
+var active = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_pregame()
+
+func set_pregame():
 	PlayerRocket = get_node("/root/Main/AsteroidMain/PlayerRocket")
-#	$Upgrade2Lasers.connect("pressed", PlayerRocket, "_on_upgrade_2_lasers")
-#	$Upgrade3Lasers.connect("pressed", PlayerRocket, "_on_upgrade_3_lasers")
 	reset_upgrades()
+	ingot_count = 0
+	$MetalCount.text = str(ingot_count)
+	active = true
+	
 
 func _process(delta):
 	for i in upgrades:
-#		upgrades[upgrades[i]]["levels"]
-		if upgrades[i]["allow_infinite_upgrades"]:
-			upgrades[i]["node"].disabled = ingot_count < upgrades[i]["cost"]
-		# not infinite levels and not max level
-#		elif not upgrades[i]["current_level"] > upgrades[i]["levels"].size():
-		else:
-			#not max level
-			if not upgrades[i]["current_level"] > upgrades[i]["levels"].size():
-				upgrades[i]["node"].disabled = ingot_count < upgrades[i]["levels"][upgrades[i]["current_level"]]
-			# is max level
+		if active:
+	#		upgrades[upgrades[i]]["levels"]
+			if upgrades[i]["allow_infinite_upgrades"]:
+				upgrades[i]["node"].disabled = ingot_count < upgrades[i]["cost"]
+			# not infinite levels and not max level
+	#		elif not upgrades[i]["current_level"] > upgrades[i]["levels"].size():
 			else:
-				upgrades[i]["node"].disabled = true
-#			if i == "laser":
-#				print("is max level: " + str(upgrades[i]["current_level"] > upgrades[i]["levels"].size()))
-#				print(upgrades[i]["current_level"])
-#				print(upgrades[i]["levels"].size())
-#				print()
-#				print(ingot_count < upgrades[i]["levels"][upgrades[i]["current_level"]])
-		# not infinite levels and is max level
-#		else
+				#not max level
+				if not upgrades[i]["current_level"] > upgrades[i]["levels"].size():
+					upgrades[i]["node"].disabled = ingot_count < upgrades[i]["levels"][upgrades[i]["current_level"]]
+				# is max level
+				else:
+					upgrades[i]["node"].disabled = true
+	#			if i == "laser":
+	#				print("is max level: " + str(upgrades[i]["current_level"] > upgrades[i]["levels"].size()))
+	#				print(upgrades[i]["current_level"])
+	#				print(upgrades[i]["levels"].size())
+	#				print()
+	#				print(ingot_count < upgrades[i]["levels"][upgrades[i]["current_level"]])
+			# not infinite levels and is max level
+	#		else
+		else:
+			upgrades[i]["node"].disabled = true
 
 func show():
 	reset_upgrades()
@@ -50,18 +59,21 @@ func show():
 	# metal hud stuff
 #	$MetalIcon.show()
 #	$MetalCount.show()
+#	show_wave(1,5)
 
 func hide():
 	for child in get_children():
 		child.hide()
 #	$PlayerHealth.hide()
 
+
 func change_metal_count(amt):
 #	$MetalCount.text = str(int($MetalCount.text) + amt)
 	ingot_count += amt
 	$MetalCount.text = str(ingot_count)
 
-
+func show_wave(wave, total):
+	$WaveCount.text = "WAVE "+str(wave)+"/"+str(total)
 
 func _on_UpgradeHealth_pressed():
 	change_metal_count(-upgrades["health"]["cost"])
@@ -87,7 +99,6 @@ func _on_UpgradeSpeed_pressed():
 
 func _on_UpgradeLasers_pressed():
 	# not max level and enough ingots
-	print(upgrades["laser"]["current_level"])
 	if (not upgrades["laser"]["current_level"] > upgrades["laser"]["levels"].size()) and ingot_count >= upgrades["laser"]["levels"][upgrades["laser"]["current_level"]]:
 		PlayerRocket.set_turret_count(upgrades["laser"]["current_level"]+1)
 #		get_node("/root/Main/AsteroidMain/PlayerRocket").call("on_upgrade_"+str(upgrades["laser"]["current_level"]+1)+"_lasers")

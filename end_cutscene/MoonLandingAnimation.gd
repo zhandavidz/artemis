@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Node2D
 
 
 # Declare member variables here. Examples:
@@ -11,6 +11,6 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func finish_animation():
+	get_node("/root/Main/MainMenu").show_main_menu()
+	queue_free()

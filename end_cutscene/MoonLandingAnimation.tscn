@@ -1,15 +1,16 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://asteroid_game/rocket_assets/sprites/rocket_flame_0.png" type="Texture" id=1]
-[ext_resource path="res://asteroid_game/rocket_assets/sprites/rocket.png" type="Texture" id=2]
-[ext_resource path="res://asteroid_game/rocket_assets/sprites/rocket_flame_2.png" type="Texture" id=3]
-[ext_resource path="res://asteroid_game/rocket_assets/sprites/rocket_flame_1.png" type="Texture" id=4]
-[ext_resource path="res://asteroid_game/rocket_assets/sprites/rocket_flame_3.png" type="Texture" id=5]
+[ext_resource path="res://asteroid_game/rocket_assets/sprites/player_rocket/player_rocket_0.png" type="Texture" id=1]
+[ext_resource path="res://asteroid_game/rocket_assets/sprites/player_rocket/player_rocket.png" type="Texture" id=2]
+[ext_resource path="res://asteroid_game/rocket_assets/sprites/player_rocket/player_rocket_2.png" type="Texture" id=3]
+[ext_resource path="res://asteroid_game/rocket_assets/sprites/player_rocket/player_rocket_1.png" type="Texture" id=4]
+[ext_resource path="res://asteroid_game/rocket_assets/sprites/player_rocket/player_rocket_3.png" type="Texture" id=5]
 [ext_resource path="res://end_cutscene/assets/moon_surface.png" type="Texture" id=6]
+[ext_resource path="res://end_cutscene/MoonLandingAnimation.gd" type="Script" id=7]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "landing"
-length = 10.0
+length = 12.0
 step = 0.01
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Animation/Rocket:position:x")
@@ -73,8 +74,22 @@ tracks/5/keys = {
 "points": PoolRealArray( 1080, -0.25, 0, 0.25, 0, 700, -7.11, 2.30939, 0.25, 0 ),
 "times": PoolRealArray( 0, 10 )
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 12 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finish_animation"
+} ]
+}
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
@@ -88,16 +103,17 @@ animations = [ {
 } ]
 
 [node name="MoonLandingAnimation" type="Node2D"]
+script = ExtResource( 7 )
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "landing"
-anims/landing = SubResource( 2 )
+anims/landing = SubResource( 1 )
 
 [node name="Rocket" type="AnimatedSprite" parent="Animation"]
 position = Vector2( 1600, -300 )
 rotation = 1.0472
 z_index = 5
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 animation = "flames"
 frame = 3
 playing = true

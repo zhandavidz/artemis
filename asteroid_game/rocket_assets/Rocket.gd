@@ -77,8 +77,23 @@ func _ready():
 	position.x = screen_size.x/2
 	position.y = 2 * screen_size.y/3
 	
+	set_pregame()
+
+func set_pregame():
+	show()
 	$LaserTimer.start()
 	$RegenCounter.stop()
+	
+	health = 100
+	max_health = health
+
+	velocity = Vector2()
+	rotation_direction = 0
+	clamp_on = true
+
+	can_shoot = true
+
+	turret_count = 1
 
 func _physics_process(delta):
 	
@@ -121,12 +136,14 @@ func check_health():
 #	print(get_parent().is_in_group("players"))
 	if health <= 0:
 		if is_in_group("players"):
-			get_node("/root/Main/AsteroidMain").end_game()
+			get_parent().hide()
+			hide()
+			get_node("/root/Main/AsteroidMain").lose_game()
 		elif is_in_group("enemies"):
 			get_node("/root/Main/AsteroidMain").add_ingot(position)
-		get_parent().get_parent().enemy_rockets.erase(get_parent())
-		get_parent().queue_free()
-	elif is_in_group("players"):
+			get_parent().get_parent().enemy_rockets.erase(get_parent())
+			get_parent().queue_free()
+	if is_in_group("players"):
 		get_parent().get_parent().update_player_health(health)
 
 func set_type(val):
@@ -135,7 +152,7 @@ func set_type(val):
 		speed = player_speeds[0]
 		rotation_speed = 3
 		add_to_group("players")
-		turret_count = 1
+		turret_count = 2
 	else:
 		add_to_group("enemies")
 		get_parent().set_shooting_timers(3,3)

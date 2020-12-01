@@ -4,6 +4,8 @@ var rng = RandomNumberGenerator.new()
 
 # Declare member variables here. Examples:
 export (PackedScene) var Laser = load("asteroid_game/laser_assets/Laser.tscn")
+var allow_shooting = true
+var can_move = true
 var is_shooting = false
 var target = Vector2()
 var type setget set_type
@@ -57,9 +59,11 @@ func _physics_process(delta):
 		velocity = Vector2()
 	
 	velocity = Vector2(rng.randfn(velocity.x, .2), rng.randfn(velocity.y, .2))
+	if not can_move:
+		velocity = Vector2()
 	$Rocket.set_input(velocity, rotation_direction)
 	
-	if is_shooting:
+	if allow_shooting and is_shooting:
 		if $Rocket.can_shoot:
 			$Rocket.can_shoot = false
 			for turret in $Rocket.current_turrets:
