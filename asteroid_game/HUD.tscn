@@ -1,12 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://asteroid_game/HUD.gd" type="Script" id=1]
 [ext_resource path="res://fonts/PressStart2P-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://asteroid_game/hud_assets/upgrade_button_2_lasers_default.png" type="Texture" id=3]
-[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_disabled.png" type="Texture" id=4]
 [ext_resource path="res://asteroid_game/hud_assets/upgrade_button_2_lasers_pressed.png" type="Texture" id=5]
-[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_pressed.png" type="Texture" id=6]
-[ext_resource path="res://asteroid_game/hud_assets/upgrade_button_3_lasers_default.png" type="Texture" id=7]
 [ext_resource path="res://asteroid_game/hud_assets/upgrade_button_2_lasers_disabled.png" type="Texture" id=8]
 [ext_resource path="res://asteroid_game/hud_assets/metal_ingot_static.png" type="Texture" id=9]
 
@@ -34,7 +31,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Upgrade2Lasers" type="TextureButton" parent="."]
+[node name="UpgradeHealth" type="TextureButton" parent="."]
 margin_left = 50.0
 margin_top = 100.0
 margin_right = 212.0
@@ -46,19 +43,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Upgrade3Lasers" type="TextureButton" parent="."]
-margin_left = 50.0
-margin_top = 100.0
-margin_right = 266.0
-margin_bottom = 316.0
-texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 6 )
-texture_disabled = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="UpgradeTemp2" type="TextureButton" parent="."]
+[node name="UpgradeArmor" type="TextureButton" parent="."]
 margin_left = 50.0
 margin_top = 250.0
 margin_right = 212.0
@@ -70,7 +55,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UpgradeTemp3" type="TextureButton" parent="."]
+[node name="UpgradeRegen" type="TextureButton" parent="."]
 margin_left = 50.0
 margin_top = 400.0
 margin_right = 212.0
@@ -82,7 +67,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UpgradeTemp4" type="TextureButton" parent="."]
+[node name="UpgradeSpeed" type="TextureButton" parent="."]
 margin_left = 50.0
 margin_top = 550.0
 margin_right = 212.0
@@ -94,7 +79,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UpgradeTemp5" type="TextureButton" parent="."]
+[node name="UpgradeLasers" type="TextureButton" parent="."]
 margin_left = 50.0
 margin_top = 700.0
 margin_right = 212.0
@@ -121,5 +106,8 @@ text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="Upgrade2Lasers" to="." method="_on_Upgrade2Lasers_pressed"]
-[connection signal="pressed" from="Upgrade3Lasers" to="." method="_on_Upgrade3Lasers_pressed"]
+[connection signal="pressed" from="UpgradeHealth" to="." method="_on_UpgradeHealth_pressed"]
+[connection signal="pressed" from="UpgradeArmor" to="." method="_on_UpgradeArmor_pressed"]
+[connection signal="pressed" from="UpgradeRegen" to="." method="_on_UpgradeRegen_pressed"]
+[connection signal="pressed" from="UpgradeSpeed" to="." method="_on_UpgradeSpeed_pressed"]
+[connection signal="pressed" from="UpgradeLasers" to="." method="_on_UpgradeLasers_pressed"]

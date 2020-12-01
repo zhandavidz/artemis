@@ -22,6 +22,7 @@ func _ready():
 	$Rocket.rotation = PI
 #	$Rocket.set_speed(400, 4)
 	$Rocket.health = 10
+	$Rocket.max_health = 10
 
 func _physics_process(delta):
 	var rotation_direction = 0

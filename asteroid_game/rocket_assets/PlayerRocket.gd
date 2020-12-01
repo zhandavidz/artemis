@@ -102,10 +102,22 @@ func get_mouse_rotation_speed_limited(velocity):
 func set_rocket_direction():
 	$Rocket.rotation = float_mod((get_viewport().get_mouse_position() - $Rocket.position).angle() + PI * 5/2, 2*PI)
 
-func on_upgrade_2_lasers():
-	$Rocket.turret_count = 2
-func on_upgrade_3_lasers():
-	$Rocket.turret_count = 3
+#func on_upgrade_2_lasers():
+#	$Rocket.turret_count = 2
+#func on_upgrade_3_lasers():
+#	$Rocket.turret_count = 3
+
+func add_health(amt):
+	$Rocket.change_health(amt)
+func add_armor(max_health, health):
+	$Rocket.max_health += max_health
+	$Rocket.change_health(health)
+func set_regen(val):
+	$Rocket.set_regen(val)
+func set_speed_level(val):
+	$Rocket.set_speed_level(val)
+func set_turret_count(amt):
+	$Rocket.turret_count = amt
 
 func float_eq(a, b):
 	var epsilon = .1
@@ -129,5 +141,5 @@ func float_mod(a, b):
 	# depends on sign of a. 
 	if a < 0: 
 		return -mod 
-  
+	
 	return mod * neg

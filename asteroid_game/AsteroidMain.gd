@@ -60,10 +60,13 @@ func is_on_ingot(pos):
 #		metal_ingots.remove(i)
 
 func add_ingot(pos):
+#	print(MetalIngot)
+#	print(EnemyRocket)
 	var ingot = MetalIngot.instance()
 	add_child(ingot)
 	ingot.position = pos
 	metal_ingots.append(ingot)
+#	pass
 
 
 func _on_AsteroidTimer_timeout():

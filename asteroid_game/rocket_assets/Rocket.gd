@@ -6,7 +6,9 @@ export var speed = 550
 export var rotation_speed = 3
 var screen_size
 
+#var health setget set_health, get_health
 var health = 100
+var max_health = health
 
 var velocity = Vector2()
 var rotation_direction = 0
@@ -16,6 +18,15 @@ var can_shoot = true
 
 var turret_count = 1
 var current_turrets setget set_current_turrets, get_current_turrets
+
+var player_speeds = {
+	0: 550,
+	1: 700,
+	2: 850,
+	3: 1000,
+	4: 1150,
+	5: 1300
+}
 
 var animations = {
 	"player": {
@@ -67,6 +78,7 @@ func _ready():
 	position.y = 2 * screen_size.y/3
 	
 	$LaserTimer.start()
+	$RegenCounter.stop()
 
 func _physics_process(delta):
 	
@@ -99,8 +111,8 @@ func set_enemy():
 func _on_LaserTimer_timeout():
 	can_shoot = true
 
-func decrease_health(amt):
-	health -= amt
+#func decrease_health(amt):
+#	health -= amt
 #	if is_in_group("player"):
 #		get_parent().get_parent().set_hud_health()
 
@@ -120,7 +132,7 @@ func check_health():
 func set_type(val):
 	type = val
 	if val == "player":
-		speed = 550
+		speed = player_speeds[0]
 		rotation_speed = 3
 		add_to_group("players")
 		turret_count = 1
@@ -131,24 +143,28 @@ func set_type(val):
 			speed = 250
 			rotation_speed = 2
 			health = 10
+			max_health = health
 			turret_count = 1
 #			get_parent().set_shooting_timers(3,3)
 		elif val == "reinforced_enemy": # slow, more health
 			speed = 150
 			rotation_speed = .5
 			health = 20
+			max_health = health
 			turret_count = 1
 #			get_parent().set_shooting_timers(5,5)
 		elif val == "yellow_enemy": # faster, 2 lasers
 			speed = 300
 			rotation_speed = 2.5
 			health = 12
+			max_health = health
 			turret_count = 2
 #			get_parent().set_shooting_timers(4,2.5)
 		elif val == "purple_enemy": # even faster, 2 lasers
 			speed = 350
 			rotation_speed = 3
 			health = 14
+			max_health = health
 			turret_count = 3
 #			get_parent().set_shooting_timers(5,2)
 
@@ -157,3 +173,22 @@ func set_current_turrets(val):
 
 func get_current_turrets():
 	return turret_locations[turret_count]
+func set_speed_level(val):
+	print("\n"+str(speed))
+	speed = player_speeds[val]
+	print(val)
+	print(speed)
+
+func change_health(amt):
+	health += amt
+	if health > max_health:
+		health = max_health
+	check_health()
+
+func set_regen(time):
+	$RegenCounter.wait_time = time
+	$RegenCounter.start(time)
+
+
+func _on_RegenCounter_timeout():
+	change_health(1)

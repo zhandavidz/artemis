@@ -1,25 +1,24 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_1.png" type="Texture" id=1]
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_6.png" type="Texture" id=2]
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_2.png" type="Texture" id=3]
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_5.png" type="Texture" id=4]
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_0.png" type="Texture" id=5]
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_7.png" type="Texture" id=6]
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_4.png" type="Texture" id=7]
-[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_3.png" type="Texture" id=8]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_7.png" type="Texture" id=1]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_0.png" type="Texture" id=2]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_1.png" type="Texture" id=3]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_2.png" type="Texture" id=4]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_4.png" type="Texture" id=5]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_5.png" type="Texture" id=6]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_3.png" type="Texture" id=7]
+[ext_resource path="res://asteroid_game/metal_assets/sprites/metal_ingot_static_6.png" type="Texture" id=8]
 [ext_resource path="res://asteroid_game/metal_assets/MetalIngot.gd" type="Script" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 1 ) ],
 "loop": true,
 "name": "default",
-"speed": 6.0
+"speed": 5.0
 } ]
 
 [node name="MetalIngot" type="AnimatedSprite"]
 frames = SubResource( 1 )
-frame = 3
 playing = true
 script = ExtResource( 9 )
