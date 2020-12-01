@@ -25,7 +25,15 @@ wait_time = 2.0
 wait_time = 120.0
 
 [node name="RestartMenu" parent="." instance=ExtResource( 4 )]
+
+[node name="PauseDelay" type="Timer" parent="."]
+wait_time = 0.05
+
+[node name="ResumeDelay" type="Timer" parent="."]
+wait_time = 0.05
 [connection signal="timeout" from="AsteroidTimer" to="." method="_on_AsteroidTimer_timeout"]
 [connection signal="timeout" from="PlayerPositionInterval" to="." method="_on_PlayerPositionInterval_timeout"]
 [connection signal="timeout" from="EnemySpawn" to="." method="_on_EnemySpawn_timeout"]
 [connection signal="timeout" from="WaveTimer" to="." method="_on_WaveTimer_timeout"]
+[connection signal="timeout" from="PauseDelay" to="." method="_on_PauseDelay_timeout"]
+[connection signal="timeout" from="ResumeDelay" to="." method="_on_ResumeDelay_timeout"]

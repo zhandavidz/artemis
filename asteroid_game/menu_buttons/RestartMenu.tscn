@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://asteroid_game/menu_buttons/assets/main_menu_select.png" type="Texture" id=1]
 [ext_resource path="res://asteroid_game/menu_buttons/assets/main_menu_default.png" type="Texture" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://asteroid_game/menu_buttons/assets/restart_select.png" type="Texture" id=5]
 [ext_resource path="res://asteroid_game/menu_buttons/assets/restart_default.png" type="Texture" id=6]
 [ext_resource path="res://asteroid_game/menu_buttons/RestartMenu.gd" type="Script" id=7]
+[ext_resource path="res://asteroid_game/menu_buttons/assets/resume_hover.png" type="Texture" id=8]
+[ext_resource path="res://asteroid_game/menu_buttons/assets/resume_select.png" type="Texture" id=9]
+[ext_resource path="res://asteroid_game/menu_buttons/assets/resume_default.png" type="Texture" id=10]
 
 [node name="RestartMenu" type="CanvasLayer"]
 script = ExtResource( 7 )
@@ -25,11 +28,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ResumeButton" type="TextureButton" parent="."]
+anchor_left = 0.5
+anchor_top = 0.35
+anchor_right = 0.5
+anchor_bottom = 0.35
+margin_left = -145.0
+margin_top = -45.0
+margin_right = 145.0
+margin_bottom = 45.0
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 9 )
+texture_hover = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RestartButton" type="TextureButton" parent="."]
 anchor_left = 0.5
-anchor_top = 0.4
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.4
+anchor_bottom = 0.5
 margin_left = -155.0
 margin_top = -45.0
 margin_right = 155.0
@@ -43,9 +62,9 @@ __meta__ = {
 
 [node name="MainMenuButton" type="TextureButton" parent="."]
 anchor_left = 0.5
-anchor_top = 0.6
+anchor_top = 0.65
 anchor_right = 0.5
-anchor_bottom = 0.6
+anchor_bottom = 0.65
 margin_left = -205.0
 margin_top = -45.0
 margin_right = 205.0
@@ -56,5 +75,6 @@ texture_hover = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="pressed" from="ResumeButton" to="." method="_on_ResumeButton_pressed"]
 [connection signal="pressed" from="RestartButton" to="." method="_on_RestartButton_pressed"]
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_MainMenuButton_pressed"]

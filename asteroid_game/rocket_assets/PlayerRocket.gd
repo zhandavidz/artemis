@@ -37,6 +37,12 @@ func end_game():
 	
 
 func _physics_process(delta):
+	if Input.is_action_pressed("pause"):
+		if get_parent().paused:
+			get_parent().resume_game()
+		else:
+			get_parent().pause_game("pause")
+	
 	var velocity = Vector2()
 	var rotation_direction = 0
 	if can_move:

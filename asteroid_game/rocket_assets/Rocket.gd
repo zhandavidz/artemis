@@ -138,7 +138,7 @@ func check_health():
 		if is_in_group("players"):
 			get_parent().hide()
 			hide()
-			get_node("/root/Main/AsteroidMain").lose_game()
+			get_node("/root/Main/AsteroidMain").pause_game()
 		elif is_in_group("enemies"):
 			get_node("/root/Main/AsteroidMain").add_ingot(position)
 			get_parent().get_parent().enemy_rockets.erase(get_parent())
@@ -204,7 +204,7 @@ func change_health(amt):
 
 func set_regen(time):
 	$RegenCounter.wait_time = time
-	$RegenCounter.start(time)
+	$RegenCounter.start()
 
 
 func _on_RegenCounter_timeout():

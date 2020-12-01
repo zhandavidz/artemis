@@ -10,11 +10,11 @@
 [ext_resource path="res://main_menu/imgs/credits_hover.png" type="Texture" id=8]
 [ext_resource path="res://main_menu/imgs/controls_default.png" type="Texture" id=9]
 [ext_resource path="res://main_menu/MenuMoon.tscn" type="PackedScene" id=10]
-[ext_resource path="res://soundtracks/neon_renegade_main_menu.wav" type="AudioStream" id=11]
 [ext_resource path="res://main_menu/imgs/play_select.png" type="Texture" id=12]
 [ext_resource path="res://main_menu/imgs/controls_select.png" type="Texture" id=13]
 [ext_resource path="res://main_menu/imgs/quit_select.png" type="Texture" id=14]
 [ext_resource path="res://main_menu/imgs/credits_select.png" type="Texture" id=15]
+[ext_resource path="res://main_menu/imgs/controls_display.png" type="Texture" id=16]
 [ext_resource path="res://main_menu/imgs/play_hover.png" type="Texture" id=20]
 
 [sub_resource type="DynamicFont" id=1]
@@ -23,11 +23,11 @@ outline_size = 10
 extra_spacing_char = 20
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 25
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 20
 font_data = ExtResource( 1 )
 
@@ -81,6 +81,7 @@ __meta__ = {
 }
 
 [node name="CreditsButton" type="TextureButton" parent="."]
+visible = false
 anchor_left = 0.02
 anchor_top = 0.5
 anchor_right = 0.02
@@ -111,7 +112,6 @@ __meta__ = {
 [node name="MenuMoon" parent="." instance=ExtResource( 10 )]
 
 [node name="MenuSong" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 11 )
 
 [node name="NameJamBg" type="ColorRect" parent="."]
 anchor_top = 1.0
@@ -131,7 +131,7 @@ margin_left = 10.0
 margin_top = -19.9999
 margin_right = 335.0
 margin_bottom = 5.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "by David Zhan"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -144,13 +144,25 @@ margin_left = 10.0
 margin_top = -30.0
 margin_right = 710.0
 margin_bottom = -10.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "made for the Game Off 2020 game jam"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Background" type="TextureButton" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ControlsDisplay" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+texture = ExtResource( 16 )
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="ControlsButton" to="." method="_on_ControlsButton_pressed"]
 [connection signal="pressed" from="CreditsButton" to="." method="_on_CreditsButton_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="finished" from="MenuSong" to="." method="_on_MenuSong_finished"]
+[connection signal="pressed" from="Background" to="." method="_on_Background_pressed"]

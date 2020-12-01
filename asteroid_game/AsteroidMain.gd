@@ -9,6 +9,7 @@ export (PackedScene) var MoonLandingAnimation = load("end_cutscene/MoonLandingAn
 
 var enemy_rockets = []
 var metal_ingots = []
+var paused = false
 
 var current_wave = 1
 var wave_prob = { # out of 10
@@ -56,10 +57,12 @@ func set_pregame():
 	$PlayerRocket.set_pregame()
 	set_wave_prob_bounds()
 	$RestartMenu.hide()
+	paused = false
 
 func start_game():
 	$AsteroidTimer.start()
 	$PlayerPositionInterval.start()
+	$EnemySpawn.wait_time = 2
 	$EnemySpawn.start()
 	$HUD.show()
 	$PlayerRocket.show()
@@ -70,9 +73,11 @@ func start_game():
 	for ingot in metal_ingots:
 		ingot.queue_free()
 	metal_ingots = []
+	$WaveTimer.set_paused(false)
 	$WaveTimer.start()
 	current_wave = 1
 	$HUD.show_wave(current_wave, wave_prob_bounds.size())
+	paused = false
 
 func end_game():
 	$AsteroidTimer.stop()
@@ -93,27 +98,57 @@ func end_game():
 	metal_ingots = []
 	for asteroid in get_tree().get_nodes_in_group("asteroids"):
 		asteroid.queue_free()
+		
 
-func lose_game():
+
+func pause_game(mode="restart_only"):
 	for enemy in enemy_rockets:
 		if enemy != null:
 			enemy.allow_shooting = false
 			enemy.can_move = false
 	
-	for asteroid in get_tree().get_nodes_in_group("asteroids"):
-		asteroid.sleeping = true
-		asteroid.mode = RigidBody2D.MODE_STATIC
-		asteroid.collision_mask = 0
-		asteroid.collision_layer = 0
+#	for asteroid in get_tree().get_nodes_in_group("asteroids"):
+#		asteroid.sleeping = true
+##		asteroid.mode = RigidBody2D.MODE_STATIC
+#		asteroid.collision_mask = 0
+#		asteroid.collision_layer = 0
 	$AsteroidTimer.stop()
 	$PlayerPositionInterval.stop()
 	$EnemySpawn.stop()
-	$WaveTimer.stop()
+#	$WaveTimer.set_active(false)
+	$WaveTimer.set_paused(true)
 	
 	$RestartMenu.show()
+	if mode == "pause":
+		$RestartMenu.set_pause_menu()
+	else: # mode == "lose"
+		$RestartMenu.set_restart_only()
 	$PlayerRocket.can_move = false
 	$PlayerRocket.allow_shooting = false
 	$HUD.active = false
+	$PauseDelay.start()
+
+func resume_game():
+	for enemy in enemy_rockets:
+		if enemy != null:
+			enemy.allow_shooting = true
+			enemy.can_move = true
+	
+#	for asteroid in get_tree().get_nodes_in_group("asteroids"):
+#		asteroid.sleeping = false
+##		asteroid.mode = RigidBody2D.MODE_STATIC
+#		asteroid.collision_mask = 1
+#		asteroid.collision_layer = 1
+	$AsteroidTimer.start()
+	$PlayerPositionInterval.start()
+	$EnemySpawn.start()
+	$WaveTimer.set_paused(false)
+	
+	$RestartMenu.hide()
+	$PlayerRocket.can_move = true
+	$PlayerRocket.allow_shooting = true
+	$HUD.active = true
+	$ResumeDelay.start()
 
 func restart_game():
 	end_game()
@@ -193,6 +228,7 @@ func _on_WaveTimer_timeout():
 	if current_wave < wave_prob_bounds.size():
 		current_wave += 1
 		$HUD.show_wave(current_wave, wave_prob_bounds.size())
+		$EnemySpawn.wait_time -= .2
 	else:
 		end_game()
 		get_node("/root/Main/MainMenu").show_moon_animation()
@@ -209,3 +245,11 @@ func set_wave_prob_bounds():
 				wave_prob_bounds[wave][type] = wave_prob[wave][type]
 				total_prob += wave_prob[wave][type]
 
+
+
+func _on_PauseDelay_timeout():
+	paused = true
+
+
+func _on_ResumeDelay_timeout():
+	paused = false
